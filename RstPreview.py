@@ -1,5 +1,5 @@
 from tempfile import NamedTemporaryFile
-from webbrowser import open as show_in_browser
+from webbrowser import open as open_in_browser
 
 from sublime_plugin import TextCommand
 from sublime import Region
@@ -17,4 +17,4 @@ class RstpreviewCommand(TextCommand):
         f.write(publish_string(text, writer_name='html'))
         f.close()
 
-        show_in_browser("file://%s" % f.name)
+        open_in_browser("file://%s" % f.name)
