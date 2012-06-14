@@ -13,8 +13,8 @@ Installation
 This package relies on docutils which Sublime must be able to import.
 
 
-Mac OS
-``````
+Mac OS X and Linux
+``````````````````
 
 Install docutils for the global python interpreter that Sublime uses::
 	
