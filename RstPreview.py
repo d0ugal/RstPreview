@@ -6,19 +6,21 @@ default browser.
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from webbrowser import open as open_in_browser
 
-import sublime 
+import sublime
 from sublime_plugin import TextCommand
 from sublime import Region
 
-try:
-    from docutils.core import publish_string
-except ImportError:
-    error_msg = """RstPreview requires docutils to be installed for the python interpreter that Sublime uses.
-run: `sudo easy_install-2.6 docutils` and restart Sublime (if on Mac Os or Linux). For windows check the docs at
-https://github.com/d0ugal/RstPreview"""
 
-    sublime.error_message(error_msg)
+def rst_to_html(rst_text):
+    try:
+        from docutils.core import publish_string
+        return publish_string(rst_text, writer_name='html')
+    except ImportError:
+        error_msg = """RstPreview requires docutils to be installed for the python interpreter that Sublime uses.
+    run: `sudo easy_install-2.6 docutils` and restart Sublime (if on Mac Os or Linux). For windows check the docs at
+    https://github.com/d0ugal/RstPreview"""
 
+        sublime.error_message(error_msg)
 
 
 def render_in_browser(html):
@@ -53,6 +55,6 @@ class RstpreviewCommand(TextCommand):
         text = self.view.substr(Region(0, self.view.size()))
 
         # Write that RST text as HTML
-        html = publish_string(text, writer_name='html')
+        html = rst_to_html(text)
 
         render_in_browser(html)
