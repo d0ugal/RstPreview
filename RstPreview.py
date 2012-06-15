@@ -3,6 +3,8 @@ RstPreview renders reStructuredText files as HTML and shows them in your
 default browser.
 """
 
+import os
+
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from webbrowser import open as open_in_browser
 
@@ -14,7 +16,11 @@ from sublime import Region
 def rst_to_html(rst_text):
     try:
         from docutils.core import publish_string
-        return publish_string(rst_text, writer_name='html')
+        args = {
+        'stylesheet_path': os.path.join(sublime.packages_path(), 'RstPreview/css/bootstrap.min.css') +
+         ',' + os.path.join(sublime.packages_path(), 'RstPreview/css/base.css')
+        }
+        return publish_string(rst_text, writer_name='html', settings_overrides=args)
     except ImportError:
         error_msg = """RstPreview requires docutils to be installed for the python interpreter that Sublime uses.
     run: `sudo easy_install-2.6 docutils` and restart Sublime (if on Mac Os or Linux). For windows check the docs at
