@@ -23,7 +23,7 @@ def rst_to_html(rst_text):
         return publish_string(rst_text, writer_name='html', settings_overrides=args)
     except ImportError:
         error_msg = """RstPreview requires docutils to be installed for the python interpreter that Sublime uses.
-    run: `sudo easy_install-2.6 docutils` and restart Sublime (if on Mac Os or Linux). For windows check the docs at
+    run: `sudo easy_install-2.6 docutils` and restart Sublime (if on Mac OS X or Linux). For Windows check the docs at
     https://github.com/d0ugal/RstPreview"""
 
         sublime.error_message(error_msg)
