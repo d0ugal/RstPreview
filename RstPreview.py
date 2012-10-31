@@ -43,6 +43,9 @@ def render_in_browser(html):
             """
             Write the HTML to the request file
             """
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
             self.wfile.write(html)
 
     # Start the server on a given random port
