@@ -5,7 +5,7 @@ This is a simple plugin for sublime text to convert RST files to HTML for
 previewing and testing. The output HTML file will be loaded in your default
 browser.
 
-`View a screenshot preview of this README from RSTPreview <http://s.do.ugal.me/JtLU>`_
+![Preview](http://f.cl.ly/items/26183a2u0b0M3l1u313N/Screen%20Shot%202012-10-03%20at%2014.14.37.png)
 
 
 Installation
