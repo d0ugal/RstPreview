@@ -27,6 +27,7 @@ def rst_to_html(rst_text):
     https://github.com/d0ugal/RstPreview"""
 
         sublime.error_message(error_msg)
+        raise
 
 
 def render_in_browser(html):
