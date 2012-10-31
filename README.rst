@@ -25,6 +25,9 @@ Install docutils for the global python interpreter that Sublime uses::
 	sudo easy_install-2.6 docutils
 
 
+After the install, you may need to restart sublime text for it to be picked up.
+
+
 Windows
 ````````
 
