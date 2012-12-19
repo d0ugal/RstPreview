@@ -3,6 +3,7 @@ RstPreview renders reStructuredText files as HTML and shows them in your
 default browser.
 """
 
+import sys
 import os
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
@@ -11,6 +12,8 @@ from webbrowser import open as open_in_browser
 import sublime
 from sublime_plugin import TextCommand
 from sublime import Region
+
+SETTINGS_FILE = 'RstPreview.sublime-settings'
 
 
 def rst_to_html(rst_text):
@@ -60,6 +63,11 @@ def render_in_browser(html):
 class RstpreviewCommand(TextCommand):
 
     def run(self, edit):
+
+        settings = sublime.load_settings(SETTINGS_FILE)
+        site_packages_path = settings.get('site_packages_path')
+        if not site_packages_path in sys.path:
+            sys.path.append(site_packages_path)
 
         # Select all the text in the current document
         text = self.view.substr(Region(0, self.view.size()))
