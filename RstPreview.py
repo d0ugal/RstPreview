@@ -66,7 +66,7 @@ class RstpreviewCommand(TextCommand):
 
         settings = sublime.load_settings(SETTINGS_FILE)
         site_packages_path = settings.get('site_packages_path')
-        if not site_packages_path in sys.path:
+        if site_packages_path and site_packages_path not in sys.path:
             sys.path.append(site_packages_path)
 
         # Select all the text in the current document

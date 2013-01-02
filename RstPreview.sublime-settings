@@ -2,5 +2,5 @@
     // Where to look for python site-packages directory.
     // Use absolute path, not relative path.
     // For example, "/Users/foo/.virtualenvs/env/lib/python2.x/site-packages".
-    "site_packages_path": ""
+    "site_packages_path": null
 }
