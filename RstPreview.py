@@ -5,9 +5,8 @@ default browser.
 
 import sys
 import os
-
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from webbrowser import open as open_in_browser
+import webbrowser
+import tempfile
 
 import sublime
 from sublime_plugin import TextCommand
@@ -19,9 +18,10 @@ SETTINGS_FILE = 'RstPreview.sublime-settings'
 def rst_to_html(rst_text):
     try:
         from docutils.core import publish_string
+        bootstrap_css_path = os.path.join(sublime.packages_path(), 'RstPreview/css/bootstrap.min.css')
+        base_css_path = os.path.join(sublime.packages_path(), 'RstPreview/css/base.css')
         args = {
-        'stylesheet_path': os.path.join(sublime.packages_path(), 'RstPreview/css/bootstrap.min.css') +
-         ',' + os.path.join(sublime.packages_path(), 'RstPreview/css/base.css')
+            'stylesheet_path': ','.join([bootstrap_css_path, base_css_path])
         }
         return publish_string(rst_text, writer_name='html', settings_overrides=args)
     except ImportError:
@@ -31,33 +31,6 @@ def rst_to_html(rst_text):
 
         sublime.error_message(error_msg)
         raise
-
-
-def render_in_browser(html):
-    """
-    Starts a simple HTTP server, directs the browser to it and handles that
-    request before closing down. This avoids the need to create many temp
-    files. However, it does mean the page can't be reloaded after which is
-    a little odd.
-    """
-
-    class RequestHandler(BaseHTTPRequestHandler):
-
-        def do_GET(self):
-            """
-            Write the HTML to the request file
-            """
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(html)
-
-    # Start the server on a given random port
-    server = HTTPServer(('127.0.0.1', 0), RequestHandler)
-    # point the browser to that IP and port.
-    open_in_browser('http://127.0.0.1:%s' % server.server_port)
-    # handle the single request and then end.
-    server.handle_request()
 
 
 class RstpreviewCommand(TextCommand):
@@ -74,5 +47,10 @@ class RstpreviewCommand(TextCommand):
 
         # Write that RST text as HTML
         html = rst_to_html(text)
+        TEMP_DIR = tempfile.gettempdir()
+        file_path = os.path.join(TEMP_DIR, 'rst_preview.html')
+        with open(file_path, 'w') as f:
+            f.write(html)
 
-        render_in_browser(html)
+        # Open the generated file in the default browser
+        webbrowser.open('file://%s' % file_path)
