@@ -7,6 +7,7 @@ import sys
 import os
 import webbrowser
 import tempfile
+import hashlib
 
 import sublime
 from sublime_plugin import TextCommand
@@ -48,7 +49,11 @@ class RstpreviewCommand(TextCommand):
         # Write that RST text as HTML
         html = rst_to_html(text)
         TEMP_DIR = tempfile.gettempdir()
-        file_path = os.path.join(TEMP_DIR, 'rst_preview.html')
+        if self.view.file_name():
+            preview_filename = hashlib.md5(self.view.file_name()).hexdigest()
+        else:
+            preview_filename = 'rst_preview.html'
+        file_path = os.path.join(TEMP_DIR, preview_filename)
         with open(file_path, 'w') as f:
             f.write(html)
 
