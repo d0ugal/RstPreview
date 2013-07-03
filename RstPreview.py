@@ -22,7 +22,8 @@ def rst_to_html(rst_text):
         bootstrap_css_path = os.path.join(sublime.packages_path(), 'RstPreview/css/bootstrap.min.css')
         base_css_path = os.path.join(sublime.packages_path(), 'RstPreview/css/base.css')
         args = {
-            'stylesheet_path': ','.join([bootstrap_css_path, base_css_path])
+            'stylesheet_path': ','.join([bootstrap_css_path, base_css_path]),
+            'syntax_highlight': 'short'
         }
         return publish_string(rst_text, writer_name='html', settings_overrides=args)
     except ImportError:
