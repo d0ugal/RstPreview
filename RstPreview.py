@@ -55,7 +55,7 @@ class RstpreviewCommand(TextCommand):
         else:
             preview_filename = 'rst_preview.html'
         file_path = os.path.join(TEMP_DIR, preview_filename)
-        with open(file_path, 'w') as f:
+        with open(file_path, 'wb') as f:
             f.write(html)
 
         # Open the generated file in the default browser
